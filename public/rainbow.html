@@ -1,0 +1,52 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rainbow</title>
+  </head>
+  <body>
+    <div>
+      <a href="index.html">Homepage </a> | <a href="rainbow.html">Rainbow</a> |
+      <a href="tables.html">Table/Graph</a>
+    </div>
+    <h1>Images</h1>
+    <div id="pictures" style="display: flex; padding: 10px;"></div>
+    <h1>Poem</h1>
+    <p id="poem"></p>
+    <script>
+      console.log("about to fetch");
+
+      //array of path to each image
+      const images = [
+        "images/rainbow.jpg",
+        "images/guy-stevens-746794-unsplash.jpg",
+        "images/sharon-pittaway-98257-unsplash.jpg",
+      ];
+
+      for (let image of images) {
+        async function catchRainbow() {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(blob);
+          img.width = 200;
+          img.height = 200;
+          img.style = "padding:10px;";
+          document.getElementById("pictures").append(img);
+        }
+        catchRainbow().catch((error) => {
+          console.log("error");
+          console.error(error);
+        });
+      }
+      async function readPoem() {
+        const response = await fetch("poem.txt");
+        return response.text();
+      }
+      readPoem().then((poem) => {
+        document.getElementById("poem").innerText = poem;
+      });
+    </script>
+  </body>
+</html>
